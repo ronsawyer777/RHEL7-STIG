@@ -21,7 +21,6 @@
   service:
       name: ntpd
       state: restarted
-
 - name: restart xinetd
   service:
       name: xinetd
