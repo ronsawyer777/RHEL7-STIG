@@ -726,7 +726,14 @@
       - RHEL-07-030320
 
 - name: "MEDIUM | RHEL-07-030321 | PATCH | The audit system must take appropriate action when there is an error sending audit records to a remote system."
-  command: "true"
+  lineinfile:
+      state: present
+      regexp: '^network_failure_action = '
+      line: "network_failure_action = {{ item }}"
+      with_items:
+        - syslog
+        - single
+        - halt
   tags:
       - cat2
       - medium
