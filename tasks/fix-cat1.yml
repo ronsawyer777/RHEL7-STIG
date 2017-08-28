@@ -375,8 +375,8 @@
       regexp: "{{ item.regexp }}"
       state: absent
   with_items:
-    - { regexp: 'NOPASSWD' }
-    - { regexp: 'nopasswd' }
+    - { regexp: '(?i)^#?NOPASSWD' }
+    - { regexp: '(?i)^#?nopasswd' }
   tags:
       - cat1
       - high
