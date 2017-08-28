@@ -1706,7 +1706,7 @@
 - name: "MEDIUM | RHEL-07-040720 | PATCH | If the Trivial File Transfer Protocol (TFTP) server is required, the TFTP daemon must be configured to operate in secure mode."
   lineinfile:
       dest: /etc/xinetd.d/tftp
-      regexp: '^#?server_args ='
+      regexp: '^#?server_args'
       line: "server_args = -s /tftpboot"
   notify: restart xinetd
   when: rhel_07_040720_audit.stat.exists
