@@ -42,6 +42,36 @@
       - always
       - pki
 
+- name: "MEDIUM | RHEL-07-040680 | AUDIT | The system must be configured to prevent unrestricted mail relaying."
+  stat:
+      path: /etc/postfix/main.cf
+  register: rhel_07_040680_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  tags:
+      - cat2
+      - medium
+      - audit
+      - RHEL-07-040680
+      - always
+      - postfix
+
+- name: "MEDIUM | RHEL-07-040720 | AUDIT | If the Trivial File Transfer Protocol (TFTP) server is required, the TFTP daemon must be configured to operate in secure mode"
+  stat:
+      path: /etc/xinetd.d/tftp
+  register: rhel_07_040720_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  tags:
+      - cat2
+      - medium
+      - audit
+      - RHEL-07-040720
+      - always
+      - tftp
+
 - name: "MEDIUM | RHEL-07-040420 | AUDIT | The SSH private host key files must have mode 0600 or less permissive."
   find:
       paths: /
@@ -92,3 +122,4 @@
       - audit
       - RHEL-07-041010
       - always
+

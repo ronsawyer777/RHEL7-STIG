@@ -26,3 +26,8 @@
   service:
       name: auditd
       state: restarted
+      
+- name: restart xinetd
+  service:
+      name: xinetd
+      state: restarted
