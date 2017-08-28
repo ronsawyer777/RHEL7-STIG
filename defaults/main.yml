@@ -1,5 +1,5 @@
 rhel7stig_cat1_patch: no
-rhel7stig_cat2_patch: no
+rhel7stig_cat2_patch: yes
 rhel7stig_cat3_patch: no
 
 # These values match patch values by defaults. To override these values,
