@@ -11,12 +11,11 @@
       - high
       - audit
       - RHEL-07-010010
+      - always
       - rpm
 
 - name: "HIGH | RHEL-07-010020 | AUDIT | The cryptographic hash of system files and commands must match vendor values."
   shell: 'rpm -Va | grep ''^..5'' | grep -E ''/.?bin/'''
-  args:
-    warn: no
   failed_when: no
   changed_when: no
   ignore_errors: yes
@@ -26,33 +25,35 @@
       - high
       - audit
       - RHEL-07-010020
+      - always
 
-- name: "HIGH | RHEL-07-010460 | AUDIT | Systems with a Basic Input/Output System (BIOS) must require authentication upon booting into single-user and maintenance modes."
+- name: "HIGH | RHEL-07-010480 | AUDIT | Systems with a Basic Input/Output System (BIOS) must require authentication upon booting into single-user and maintenance modes."
   command: grep -i ^password_pbkdf2 /boot/grub2/grub.cfg
   failed_when: no
   changed_when: no
   ignore_errors: yes
-  register: rhel_07_010460_audit
+  register: rhel_07_010480_audit
   tags:
       - cat1
       - high
       - audit
-      - RHEL-07-010460
+      - RHEL-07-010480
+      - always
 
-- name: "HIGH | RHEL-07-010470 | AUDIT | Systems using Unified Extensible Firmware Interface (UEFI) must require authentication upon booting into single-user and maintenance modes."
+- name: "HIGH | RHEL-07-010490 | AUDIT | Systems using Unified Extensible Firmware Interface (UEFI) must require authentication upon booting into single-user and maintenance modes."
   command: grep -i ^password_pbkdf2 /boot/efi/EFI/redhat/grub.cfg
   failed_when: no
   changed_when: no
   ignore_errors: yes
-  register: rhel_07_010470_audit
+  register: rhel_07_010490_audit
   tags:
       - cat1
       - high
       - audit
-      - RHEL-07-010470
+      - RHEL-07-010490
       - always
 
-- name: "HIGH | RHEL-07-020170 | AUDIT | Operating systems handling data requiring data-at-rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
+- name: "HIGH | RHEL-07-020170 | PATCH | Operating systems handling data requiring data-at-rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
   shell: blkid | grep -vi crypto_LUKS
   failed_when: no
   changed_when: no
@@ -75,6 +76,7 @@
       - high
       - audit
       - RHEL-07-020310
+      - always
 
 - name: "HIGH | RHEL-07-040540 | AUDIT | There must be no .shosts files on the system."
   find:
@@ -88,6 +90,7 @@
       - high
       - audit
       - RHEL-07-040540
+      - always
 
 - name: "HIGH | RHEL-07-040550 | AUDIT | There must be no shosts.equiv files on the system."
   find:
@@ -100,6 +103,7 @@
       - high
       - audit
       - RHEL-07-040550
+      - always
 
 - name: "HIGH | RHEL-07-040800 | AUDIT | SNMP community strings must be changed from the default."
   command: grep {{ item }} /etc/snmp/snmpd.conf
@@ -115,4 +119,5 @@
       - high
       - audit
       - RHEL-07-040800
+      - always
       - snmp
