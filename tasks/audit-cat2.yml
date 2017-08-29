@@ -136,7 +136,7 @@
   tags:
       - cat2
       - medium
-      - patch
+      - audit
       - RHEL-07-030871
       - auditd
       - always
