@@ -652,6 +652,7 @@
   file:
       path: /etc/cron.allow
       group: root   
+  when: rhel_07_021120_audit.stat.exists   
   tags:
       - cat2
       - medium

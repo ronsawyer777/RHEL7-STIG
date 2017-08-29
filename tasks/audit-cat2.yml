@@ -1,7 +1,7 @@
 - name: "MEDIUM | RHEL-07-021120 | AUDIT | If the cron.allow file exists it must be group owned by root"
   stat:
       path: /etc/cron.allow
-  register: rhel_07_021120
+  register: rhel_07_021120_audit
   failed_when: no
   changed_when: no
   ignore_errors: yes
