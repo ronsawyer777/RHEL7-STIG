@@ -1587,7 +1587,9 @@
       - firewalld
 
 - name: "MEDIUM | RHEL-07-040520 | PATCH | The operating system must enable an application firewall, if available."
-  command: "true"
+  yum:
+      name: firewalld
+      state: present
   tags:
       - cat2
       - medium
