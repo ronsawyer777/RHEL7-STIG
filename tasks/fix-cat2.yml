@@ -729,8 +729,8 @@
   lineinfile:
       state: present
       dest: /etc/audisp/audisp-remote.conf
-      regexp: '^network_failure_action = '
-      line: "network_failure_action = {{rhel7stig_network_failure_action}}"
+      regexp: '^#?network_failure_action'
+      line: "network_failure_action = {{ rhel7stig_network_failure_action }}"
   when: rhel_07_030321_audit.stat.exists
   tags:
       - cat2
