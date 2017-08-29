@@ -14,12 +14,12 @@
   tags:
       - always
 
-- name: Run CAT I audits
-  include: audit-cat1.yml
-  when: rhel7stig_cat1_audit | bool
-  tags:
-      - cat1
-      - audit
+#- name: Run CAT I audits
+#  include: audit-cat1.yml
+#  when: rhel7stig_cat1_audit | bool
+#  tags:
+#      - cat1
+#      - audit
 
 - name: Run CAT II audits
   include: audit-cat2.yml
@@ -35,12 +35,12 @@
       - cat2
       - audit
 
-- name: Include CAT I patches
-  include: fix-cat1.yml
-  when: rhel7stig_cat1_patch | bool
-  tags:
-      - cat1
-      - patch
+#- name: Include CAT I patches
+#  include: fix-cat1.yml
+#  when: rhel7stig_cat1_patch | bool
+#  tags:
+#      - cat1
+#      - patch
 
 - name: Include CAT II patches
   include: fix-cat2.yml

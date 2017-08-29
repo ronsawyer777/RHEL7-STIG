@@ -322,7 +322,7 @@
       - RHEL-07-010330
 
 - name: "MEDIUM | RHEL-07-010340 | PATCH | Users must provide a password for privilege escalation."
-  command: "true"
+  command: "sed -i -e 's/NOPASSWD: ALL/ALL/g' /etc/sudoers"
   tags:
       - cat2
       - medium
