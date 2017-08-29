@@ -43,7 +43,24 @@
       - cron
       - always
      
-      
+- name: "MEDIUM | RHEL-07-020100 | AUDIT | USB mass storage must be disabled."
+  find: 
+      paths: /etc/modprobe.d/
+      file_type: file
+      recurse: yes
+      contains: '^#?install\s+usb\-storage\s+/bin/true'
+      hidden: true
+  register: rhel_07_020100_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  tags:
+      - cat2
+      - medium
+      - audit
+      - RHEL-07-020100
+      - usb
+
 - name: "MEDIUM | RHEL-07-040180 | AUDIT | The operating system must implement cryptography to protect the integrity of Lightweight Directory Access Protocol (LDAP) authentication communications."
   command: grep -i useldapauth /etc/sysconfig/authconfig
   register: rhel_07_040180_audit
