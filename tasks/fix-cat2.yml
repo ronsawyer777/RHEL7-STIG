@@ -473,7 +473,10 @@
       - RHEL-07-020600
 
 - name: "MEDIUM | RHEL-07-020610 | PATCH | All local interactive user accounts, upon creation, must be assigned a home directory."
-  command: "true"
+  lineinfile:
+      dest: /etc/login.defs
+      regexp: '^#?CREATE_HOME'
+      line: "CREATE_HOME yes"
   tags:
       - cat2
       - medium
