@@ -411,6 +411,7 @@
 - name: "MEDIUM | RHEL-07-020100 | PATCH | USB mass storage must be disabled."
   lineinfile:
       create: yes
+      regexp: '^#?install\s+usb\-storage\s+/bin/true'
       path: /etc/modprobe.d/nousbstorage
       line: 'install usb-storage /bin/true'
   when: not rhel_07_020100_audit.matched
