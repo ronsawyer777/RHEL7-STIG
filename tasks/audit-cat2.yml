@@ -60,6 +60,7 @@
       - audit
       - RHEL-07-020100
       - usb
+      - always
 
 - name: "MEDIUM | RHEL-07-040180 | AUDIT | The operating system must implement cryptography to protect the integrity of Lightweight Directory Access Protocol (LDAP) authentication communications."
   command: grep -i useldapauth /etc/sysconfig/authconfig
