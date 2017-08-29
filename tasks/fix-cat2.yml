@@ -322,7 +322,7 @@
       - RHEL-07-010330
 
 - name: "MEDIUM | RHEL-07-010340 | PATCH | Users must provide a password for privilege escalation."
-  command: "sed -i -e 's/NOPASSWD: ALL/ALL/g' /etc/sudoers"
+  command: "true"
   tags:
       - cat2
       - medium
@@ -354,7 +354,7 @@
       regexp: '^#?PermitUserEnvironment'
       line: PermitUserEnvironment no
       validate: sshd -t -f %s
-  notify: restart sshd      
+  notify: restart sshd
   tags:
       - cat2
       - medium
@@ -1705,7 +1705,7 @@
   lineinfile:
     dest: /etc/postfix/main.cf
     regexp: '^#?postconf'
-    line: "postconf -e 'smtpd_client_restrictions = permit_mynetworks,reject'" 
+    line: "postconf -e 'smtpd_client_restrictions = permit_mynetworks,reject'"
   tags:
       - cat2
       - medium
