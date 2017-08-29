@@ -1165,7 +1165,6 @@
       dest: "{{item.stat.path}}/audit.rules"
       regexp: '^#?-w /etc/group'
       line: '-w /etc/group -p wa -k identity'
-      insertafter: EOF
       create: yes
   with_items: "{{ rhel_07_030871_audit.results}}"
   when: item.stat.exists
