@@ -1,3 +1,18 @@
+- name: "MEDIUM | RHEL-07-020110 | AUDIT | File System automounter must be disabled unless required"
+  stat:
+      path: /etc/auto.master
+  register: rhel_07_020110_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  tags:
+      - cat2
+      - medium
+      - audit
+      - RHEL-07-020110
+      - always
+      - autofs
+
 - name: "MEDIUM | RHEL-07-021120 | AUDIT | If the cron.allow file exists it must be group owned by root"
   stat:
       path: /etc/cron.allow
