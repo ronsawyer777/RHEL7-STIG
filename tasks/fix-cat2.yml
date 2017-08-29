@@ -420,7 +420,7 @@
   systemd:
       name: autofs
       enabled: no
-  when: rhel_07_020110_audit.stat.exists     
+  when: rhel_07_020110_audit.stat.exists
   tags:
       - cat2
       - medium
@@ -661,8 +661,8 @@
 - name: "MEDIUM | RHEL-07-021120 | PATCH | If the cron.allow file exists it must be group-owned by root."
   file:
       path: /etc/cron.allow
-      group: root   
-  when: rhel_07_021120_audit.stat.exists   
+      group: root
+  when: rhel_07_021120_audit.stat.exists
   tags:
       - cat2
       - medium
