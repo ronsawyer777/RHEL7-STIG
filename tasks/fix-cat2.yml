@@ -729,11 +729,8 @@
   lineinfile:
       state: present
       regexp: '^network_failure_action = '
-      line: "network_failure_action = {{ item }}"
-      with_items:
-        - syslog
-        - single
-        - halt
+      line: "network_failure_action = {{rhel7stig_network_failure_action}}"
+  when: rhel_07_030321_audit.stat.exists
   tags:
       - cat2
       - medium
