@@ -171,3 +171,21 @@
       - RHEL-07-030871
       - auditd
       - always
+
+- name: "MEDIUM | RHEL-07-030874 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/opasswd."
+  stat:
+      path: "{{ item }}"
+  register: rhel_07_030874_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  with_items:
+      - /etc/audit
+      - /etc/audit/rules.d
+  tags:
+      - cat2
+      - medium
+      - audit
+      - RHEL-07-030874
+      - auditd
+      - always
