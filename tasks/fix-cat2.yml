@@ -641,7 +641,10 @@
       - RHEL-07-021100
 
 - name: "MEDIUM | RHEL-07-021110 | PATCH | If the cron.allow file exists it must be owned by root."
-  command: "true"
+  file:
+      path: /etc/cron.allow
+      owner: root
+  when: rhel_07_021110_audit.stat.exists
   tags:
       - cat2
       - medium
@@ -649,7 +652,10 @@
       - RHEL-07-021110
 
 - name: "MEDIUM | RHEL-07-021120 | PATCH | If the cron.allow file exists it must be group-owned by root."
-  command: "true"
+  file:
+      path: /etc/cron.allow
+      group: root   
+  when: rhel_07_021120_audit.stat.exists   
   tags:
       - cat2
       - medium
@@ -1587,7 +1593,9 @@
       - firewalld
 
 - name: "MEDIUM | RHEL-07-040520 | PATCH | The operating system must enable an application firewall, if available."
-  command: "true"
+  yum:
+      name: firewalld
+      state: present
   tags:
       - cat2
       - medium
