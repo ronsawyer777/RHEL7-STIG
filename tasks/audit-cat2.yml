@@ -153,3 +153,21 @@
       - audit
       - RHEL-07-041010
       - always
+
+- name: "MEDIUM | RHEL-07-030871 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group."
+  stat:
+      path: "{{ item }}"
+  register: rhel_07_030871_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  with_items:
+      - /etc/audit
+      - /etc/audit/rules.d
+  tags:
+      - cat2
+      - medium
+      - audit
+      - RHEL-07-030871
+      - auditd
+      - always
