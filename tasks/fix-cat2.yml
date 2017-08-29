@@ -649,7 +649,9 @@
       - RHEL-07-021110
 
 - name: "MEDIUM | RHEL-07-021120 | PATCH | If the cron.allow file exists it must be group-owned by root."
-  command: "true"
+  file:
+      path: /etc/cron.allow
+      group: root   
   tags:
       - cat2
       - medium
