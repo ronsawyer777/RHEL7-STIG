@@ -2,6 +2,7 @@
   stat:
       path: /etc/auto.master
   register: rhel_07_020110_audit
+
 - name: "MEDIUM | RHEL-07-030321 | AUDIT | The audit system must take appropriate action when there is an error sending audit records to a remote system."
   stat:
       path: /etc/audisp/audisp-remote.conf
@@ -45,10 +46,6 @@
       - audit
       - RHEL-07-021110
       - cron
-      - always
-     
-      
-      - RHEL-07-030321
       - always
 
 - name: "MEDIUM | RHEL-07-040180 | AUDIT | The operating system must implement cryptography to protect the integrity of Lightweight Directory Access Protocol (LDAP) authentication communications."
