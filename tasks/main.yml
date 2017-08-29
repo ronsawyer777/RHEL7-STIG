@@ -18,8 +18,8 @@
   include: audit-cat1.yml
   when: rhel7stig_cat1_audit | bool
   tags:
-      - cat1
-      - audit
+     - cat1
+     - audit
 
 - name: Run CAT II audits
   include: audit-cat2.yml
@@ -39,8 +39,8 @@
   include: fix-cat1.yml
   when: rhel7stig_cat1_patch | bool
   tags:
-      - cat1
-      - patch
+     - cat1
+     - patch
 
 - name: Include CAT II patches
   include: fix-cat2.yml

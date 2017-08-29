@@ -120,4 +120,14 @@
       - audit
       - RHEL-07-040800
       - always
-      - snmp
+
+- name: "HIGH | RHEL-07-010340 | AUDIT | RHEL-07-040390 | PATCH | The SSH daemon must be configured to only use the SSHv2 protocol"
+  stat:
+      command: grep -i nopasswd /etc/sudoers /etc/sudoers.d/*
+      register: rhel-07-010340_audit
+  tags:
+      - cat1
+      - high
+      - audit
+      - RHEL-07-010340
+      - always
