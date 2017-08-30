@@ -732,6 +732,7 @@
       regexp: '^#?network_failure_action'
       line: "network_failure_action = {{ rhel7stig_network_failure_action }}"
   when: rhel_07_030321_audit.stat.exists
+  notify: restart auditd
   tags:
       - cat2
       - medium
@@ -1867,4 +1868,3 @@
       - medium
       - patch
       - RHEL-07-031010
-

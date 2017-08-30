@@ -55,3 +55,7 @@ rhel7stig_boot_password_config:
 
     - regexp: ^password_pbkdf2 root
       line: password_pbkdf2 root {{ rhel7stig_bootloader_password | grub2_hash(salt='KeokpkECTJeoDhEA5XtiLQ') }}
+
+# RHEL-07-030321
+# ensure action when remote audit fails
+rhel7stig_network_failure_action: halt
