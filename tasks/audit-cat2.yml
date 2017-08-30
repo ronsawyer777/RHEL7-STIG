@@ -244,11 +244,11 @@
   find:
       paths: /etc/dconf/db/local.d
       recurse: no
-      contains: "idle-delay"
+      contains: "^#?idle-delay"
   register: rhel_07_010070_audit
   tags:
       - cat2
-      - high
+      - medium
       - audit
       - RHEL-07-010070
       - always

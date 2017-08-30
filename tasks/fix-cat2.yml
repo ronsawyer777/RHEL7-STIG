@@ -50,13 +50,69 @@
       - patch
       - RHEL-07-010060
 
-- name: "MEDIUM | RHEL-07-010070 | PATCH | The operating system must initiate a screensaver after a 15-minute period of inactivity for graphical user interfaces."
-  command: "true"
+#- name: "MEDIUM | RHEL-07-010070 | PATCH | The operating system must initiate a screensaver after a 15-minute period of inactivity for graphical user interfaces."
+- block: # block executes only if gnome is installed and the dir /etc/dconf/db/local.d exists
+      # update the screensaver timeout file
+      - name: "MEDIUM | RHEL-07-010070 | PATCH | Screensaver after a 15-minute period. Update config"
+        ini_file:
+            dest: "{{ rhel_07_010070_audit.files.0.path }}"
+            section: "{{ item.section }}"
+            option: "{{ item.option }}"
+            value: "{{ item.value }}"
+            mode: 644
+            owner: root
+            group: root
+        with_items:
+            - section: "org/gnome/desktop/screensaver"
+              option: "lock-enabled"
+              value: "true"
+            - section: "org/gnome/desktop/screensaver"
+              option: "lock-delay"
+              value: "uint32 180"
+            - section: "org/gnome/desktop/session"
+              option: "idle-delay"
+              value: "uint32 900"
+        when: rhel_07_010070_audit.matched > 0
+
+      # create the screensaver timeout file
+      - name: "MEDIUM | RHEL-07-010070 | PATCH | Screensaver after a 15-minute period. Create config"
+        ini_file:
+            dest: /etc/dconf/db/local.d/00-screensaver
+            section: "{{ item.section }}"
+            option: "{{ item.option }}"
+            value: "{{ item.value }}"
+            mode: 644
+        with_items:
+            - section: "org/gnome/desktop/screensaver"
+              option: "lock-enabled"
+              value: "true"
+            - section: "org/gnome/desktop/screensaver"
+              option: "lock-delay"
+              value: "uint32 180"
+            - section: "org/gnome/desktop/session"
+              option: "idle-delay"
+              value: "uint32 900"
+        when: rhel_07_010070_audit.matched == 0
+
+      # cfeate the user lock file
+      - name: "MEDIUM | RHEL-07-010070 | PATCH | Screensaver after a 15-minute period. Create locks"
+        lineinfile:
+            dest: "/etc/dconf/db/local.d/locks/screensaver"
+            line: "{{ item }}"
+            create: yes
+            state: present
+        with_items:
+            - '# Lock desktop screensaver settings'
+            - '/org/gnome/desktop/session/idle-delay'
+            - '/org/gnome/desktop/screensaver/lock-enabled'
+            - '/org/gnome/desktop/screensaver/lock-delay'
+  when: rhel_07_010070_audit.examined != 0 # end of block, execute only if gnome is installed
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-010070
+
 
 - name: "MEDIUM | RHEL-07-010080 | PATCH | The operating system must set the idle delay setting for all connection types."
   command: "true"
@@ -1874,67 +1930,4 @@
       - medium
       - patch
       - RHEL-07-031010
-
-- name: "MEDIUM | RHEL-07-010070 | PATCH | The operating system must initiate a screensaver after a 15-minute period of inactivity for graphical user interfaces."
-  - block: # executes only if gnome is installed and the dir /etc/dconf/db/local.d exists
-      # update the screensaver timeout file
-      - name: "MEDIUM | RHEL-07-010070 | PATCH | Screensaver after a 15-minute period. Update config"
-        ini_file:
-            dest: "{{ rhel_07_010070_audit.files.0.path }}"
-            section: "{{ item.section }}"
-            option: "{{ item.option }}"
-            value: "{{ item.value }}"
-            mode: 644
-            owner: root
-            group: root
-        with_items:
-            - section: "org/gnome/desktop/screensaver"
-              option: "lock-enabled"
-              value: "true"
-            - section: "org/gnome/desktop/screensaver"
-              option: "lock-delay"
-              value: "uint32 180"
-            - section: "org/gnome/desktop/session"
-              option: "idle-delay"
-              value: "uint32 900"
-        when: rhel_07_010070_audit.matched > 0
-
-      # create the screensaver timeout file
-      - name: "MEDIUM | RHEL-07-010070 | PATCH | Screensaver after a 15-minute period. Create config"
-        ini_file:
-            dest: /etc/dconf/db/local.d/00-screensaver
-            section: "{{ item.section }}"
-            option: "{{ item.option }}"
-            value: "{{ item.value }}"
-            mode: 644
-        with_items:
-            - section: "org/gnome/desktop/screensaver"
-              option: "lock-enabled"
-              value: "true"
-            - section: "org/gnome/desktop/screensaver"
-              option: "lock-delay"
-              value: "uint32 180"
-            - section: "org/gnome/desktop/session"
-              option: "idle-delay"
-              value: "uint32 900"
-        when: rhel_07_010070_audit.matched == 0
-
-      # cfeate the user lock file
-      - name: "MEDIUM | RHEL-07-010070 | PATCH | Screensaver after a 15-minute period. Create locks"
-        lineinfile:
-            dest: "/etc/dconf/db/local.d/locks/screensaver"
-            line: "{{ item }}"
-            create: yes
-            state: present
-        with_items:
-            - '# Lock desktop screensaver settings'
-            - '/org/gnome/desktop/session/idle-delay'
-            - '/org/gnome/desktop/screensaver/lock-enabled'
-            - '/org/gnome/desktop/screensaver/lock-delay'
-    when: rhel_07_010070_audit.examined != 0 # end of block, execute only if gnome is installed
-  tags:
-      - cat2
-      - medium
-      - patch
-      - RHEL-07-010070
 

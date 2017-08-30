@@ -10,7 +10,7 @@ rhel7stig_cat2_audit: "{{ rhel7stig_cat2_patch }}"
 rhel7stig_cat3_audit: "{{ rhel7stig_cat3_patch }}"
 
 # Whether or not to run tasks related to auditing/patching the desktop environment
-rhel7stig_gui: no
+rhel7stig_gui: yes
 
 # RHEL-07-040740
 # If system is not router, run tasks that disable router functions.
@@ -39,8 +39,6 @@ rhel7stig_lftpd_required: no
 # RHEL-07-040500
 # If not required, remove tftp
 rhel7stig_tftp_required: no
-
-
 
 # RHEL-07-040580
 # Set the SNMP community string to this from the default of public or private
