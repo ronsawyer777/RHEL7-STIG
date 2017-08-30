@@ -191,10 +191,31 @@
       - RHEL-07-041010
       - always
 
-- name: "MEDIUM | RHEL-07-030871 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group."
+- name: "MEDIUM | RHEL-07-010060 | AUDIT | The operating system must enable a user session lock until that user re-establishes access using established identification and authentication procedures."
+  find:
+      paths: /etc/dconf/db/local.d
+      contains: "lock-enabled"
+      recurse: yes
+  changed_when: no
+  failed_when: no
+  ignore_errors: yes
+  register: rhel_07_010060_audit
+  tags:
+      - cat2
+      - high
+      - audit
+      - gui
+      - RHEL-07-010060
+      - always
+
+- name: |
+    MEDIUM | RHEL-07-030871 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group.
+    MEDIUM | RHEL-07-030872 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/gshadow.
+    MEDIUM | RHEL-07-030873 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/shadow.
+    MEDIUM | RHEL-07-030874 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/opasswd.
   stat:
       path: "{{ item }}"
-  register: rhel_07_030871_audit
+  register: rhel_07_auditd_audit
   failed_when: no
   changed_when: no
   ignore_errors: yes
@@ -206,26 +227,12 @@
       - medium
       - audit
       - RHEL-07-030871
+      - RHEL-07-030872
+      - RHEL-07-030873
+      - RHEL-07-030874
       - auditd
       - always
 
-- name: "MEDIUM | RHEL-07-030874 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/opasswd."
-  stat:
-      path: "{{ item }}"
-  register: rhel_07_030874_audit
-  failed_when: no
-  changed_when: no
-  ignore_errors: yes
-  with_items:
-      - /etc/audit
-      - /etc/audit/rules.d
-  tags:
-      - cat2
-      - medium
-      - auditd
-      - RHEL-07-030874
-      - always
-      
 - name: "MEDIUM | RHEL-07-031010 | AUDIT | The rsyslog daemon must not accept log messages from other servers unless the server is being used for log aggregation."
   stat:
       path: "/etc/rsyslog.conf"
@@ -251,4 +258,17 @@
       - medium
       - audit
       - RHEL-07-010070
+
+- name: "MEDIUM | RHEL-07-020240 | PATCH | The operating system must define default permissions for all authenticated users in such a way that the user can only read and modify their own files."
+  stat:
+      path: "/etc/login.defs"
+  register: rhel_07_020240_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  tags:
+      - cat2
+      - medium
+      - logindefs
+      - RHEL-07-020240
       - always
