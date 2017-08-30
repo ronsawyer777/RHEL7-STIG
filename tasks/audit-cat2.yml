@@ -48,7 +48,7 @@
       paths: /etc/modprobe.d/
       file_type: file
       recurse: yes
-      contains: '^install\s+usb\-storage\s+/bin/true'
+      contains: '^#?install usb-storage /bin/true'
       hidden: true
   register: rhel_07_020100_audit
   failed_when: no
