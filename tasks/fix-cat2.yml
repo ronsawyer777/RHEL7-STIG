@@ -417,12 +417,16 @@
       - RHEL-07-020100
 
 - name: "MEDIUM | RHEL-07-020110 | PATCH | File system automounter must be disabled unless required."
-  command: "true"
+  systemd:
+      name: autofs
+      enabled: no
+  when: rhel_07_020110_audit.stat.exists
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-020110
+      - autofs
 
 - name: "MEDIUM | RHEL-07-020240 | PATCH | The operating system must define default permissions for all authenticated users in such a way that the user can only read and modify their own files."
   command: "true"
@@ -473,7 +477,10 @@
       - RHEL-07-020600
 
 - name: "MEDIUM | RHEL-07-020610 | PATCH | All local interactive user accounts, upon creation, must be assigned a home directory."
-  command: "true"
+  lineinfile:
+      dest: /etc/login.defs
+      regexp: '^#?CREATE_HOME'
+      line: "CREATE_HOME yes"
   tags:
       - cat2
       - medium
@@ -654,8 +661,8 @@
 - name: "MEDIUM | RHEL-07-021120 | PATCH | If the cron.allow file exists it must be group-owned by root."
   file:
       path: /etc/cron.allow
-      group: root   
-  when: rhel_07_021120_audit.stat.exists   
+      group: root
+  when: rhel_07_021120_audit.stat.exists
   tags:
       - cat2
       - medium
@@ -719,7 +726,12 @@
       - RHEL-07-030320
 
 - name: "MEDIUM | RHEL-07-030321 | PATCH | The audit system must take appropriate action when there is an error sending audit records to a remote system."
-  command: "true"
+  lineinfile:
+      state: present
+      dest: /etc/audisp/audisp-remote.conf
+      regexp: '^#?network_failure_action'
+      line: "network_failure_action = {{ rhel7stig_network_failure_action }}"
+  when: rhel_07_030321_audit.stat.exists
   tags:
       - cat2
       - medium
@@ -1253,15 +1265,6 @@
       - medium
       - patch
       - RHEL-07-031000
-      - rsyslog
-
-- name: "MEDIUM | RHEL-07-031010 | PATCH | The rsyslog daemon must not accept log messages from other servers unless the server is being used for log aggregation."
-  command: "true"
-  tags:
-      - cat2
-      - medium
-      - patch
-      - RHEL-07-031010
       - rsyslog
 
 - name: "MEDIUM | RHEL-07-032010 | PATCH | The system must update the DoD-approved virus scan program every seven days or more frequently."
@@ -1851,3 +1854,17 @@
       - medium
       - patch
       - RHEL-07-041010
+
+
+- name: "MEDIUM | RHEL-07-031010 | PATCH | The rsyslog daemon must not accept log messages from other servers unless the server is being used for log aggregation."
+  lineinfile:
+      dest: /etc/rsyslog.conf
+      regexp: '^#?\$ModLoad imtcp'
+      state: absent
+  notify: restart rsyslogd
+  tags:
+      - cat2
+      - medium
+      - patch
+      - RHEL-07-031010
+

@@ -34,3 +34,8 @@
   service:
       name: xinetd
       state: restarted
+
+- name: restart rsyslogd
+  service:
+      name: rsyslog
+      state: restarted
