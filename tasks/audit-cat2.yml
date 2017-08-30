@@ -239,3 +239,16 @@
       - rsyslog
       - RHEL-07-031010
       - always
+
+- name: "MEDIUM | RHEL-07-010070 | AUDIT | System must initiate a screensaver after a 15-minute period."
+  find:
+      paths: /etc/dconf/db/local.d
+      recurse: no
+      contains: "idle-delay"
+  register: rhel_07_010070_audit
+  tags:
+      - cat2
+      - high
+      - audit
+      - RHEL-07-010070
+      - always
