@@ -435,12 +435,16 @@
       - autofs
 
 - name: "MEDIUM | RHEL-07-020240 | PATCH | The operating system must define default permissions for all authenticated users in such a way that the user can only read and modify their own files."
-  command: "true"
+  lineinfile:
+      dest: /etc/login.defs
+      regexp: '^#?UMASK'
+      line: "UMASK 077"
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-020240
+      - logindefs
 
 - name: "MEDIUM | RHEL-07-020260 | PATCH | Vendor packaged system security patches and updates must be installed and up to date."
   command: "true"
