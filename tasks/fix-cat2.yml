@@ -1259,15 +1259,6 @@
       - RHEL-07-031000
       - rsyslog
 
-- name: "MEDIUM | RHEL-07-031010 | PATCH | The rsyslog daemon must not accept log messages from other servers unless the server is being used for log aggregation."
-  command: "true"
-  tags:
-      - cat2
-      - medium
-      - patch
-      - RHEL-07-031010
-      - rsyslog
-
 - name: "MEDIUM | RHEL-07-032010 | PATCH | The system must update the DoD-approved virus scan program every seven days or more frequently."
   command: "true"
   tags:
@@ -1855,3 +1846,17 @@
       - medium
       - patch
       - RHEL-07-041010
+
+
+- name: "MEDIUM | RHEL-07-031010 | PATCH | The rsyslog daemon must not accept log messages from other servers unless the server is being used for log aggregation."
+  lineinfile:
+      dest: /etc/rsyslog.conf
+      regexp: '^#?\$ModLoad imtcp'
+      state: absent
+  notify: restart rsyslogd
+  tags:
+      - cat2
+      - medium
+      - patch
+      - RHEL-07-031010
+
