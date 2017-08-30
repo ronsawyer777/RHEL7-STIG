@@ -1195,7 +1195,7 @@
       regexp: '^#?-w /etc/group'
       line: '-w /etc/group -p wa -k identity'
       create: yes
-  with_items: "{{ rhel_07_030871_audit.results }}"
+  with_items: "{{ rhel_07_auditd_audit.results }}"
   when: item.stat.exists
   notify: restart auditd
   tags:
@@ -1206,20 +1206,36 @@
       - auditd
 
 - name: "MEDIUM | RHEL-07-030872 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/gshadow."
-  command: "true"
+  lineinfile:
+      dest: "{{ item.stat.path }}/audit.rules"
+      regexp: '^#?-w /etc/gshadow'
+      line: '-w /etc/gshadow -p wa -k identity'
+      create: yes
+  with_items: "{{ rhel_07_auditd_audit.results }}"
+  when: item.stat.exists
+  notify: restart auditd
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030872
+      - auditd
 
 - name: "MEDIUM | RHEL-07-030873 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/shadow."
-  command: "true"
+  lineinfile:
+      dest: "{{ item.stat.path }}/audit.rules"
+      regexp: '^#?-w /etc/shadow'
+      line: '-w /etc/shadow -p wa -k identity'
+      create: yes
+  with_items: "{{ rhel_07_auditd_audit.results }}"
+  when: item.stat.exists
+  notify: restart auditd
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-030873
+      - auditd
 
 - name: "MEDIUM | RHEL-07-030874 | PATCH | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/opasswd."
   lineinfile:
@@ -1227,7 +1243,7 @@
       regexp: '^#?-w /etc/opasswd'
       line: '-w /etc/opasswd -p wa -k identity'
       create: yes
-  with_items: "{{ rhel_07_030874_audit.results }}"
+  with_items: "{{ rhel_07_auditd_audit.results }}"
   when: item.stat.exists
   notify: restart auditd
   tags:

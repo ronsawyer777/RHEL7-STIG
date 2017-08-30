@@ -191,10 +191,14 @@
       - RHEL-07-041010
       - always
 
-- name: "MEDIUM | RHEL-07-030871 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group."
+- name: |
+    MEDIUM | RHEL-07-030871 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group.
+    MEDIUM | RHEL-07-030872 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/gshadow.
+    MEDIUM | RHEL-07-030873 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/shadow.
+    MEDIUM | RHEL-07-030874 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/opasswd.
   stat:
       path: "{{ item }}"
-  register: rhel_07_030871_audit
+  register: rhel_07_auditd_audit
   failed_when: no
   changed_when: no
   ignore_errors: yes
@@ -206,26 +210,12 @@
       - medium
       - audit
       - RHEL-07-030871
+      - RHEL-07-030872
+      - RHEL-07-030873
+      - RHEL-07-030874
       - auditd
       - always
 
-- name: "MEDIUM | RHEL-07-030874 | AUDIT | The operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/opasswd."
-  stat:
-      path: "{{ item }}"
-  register: rhel_07_030874_audit
-  failed_when: no
-  changed_when: no
-  ignore_errors: yes
-  with_items:
-      - /etc/audit
-      - /etc/audit/rules.d
-  tags:
-      - cat2
-      - medium
-      - auditd
-      - RHEL-07-030874
-      - always
-      
 - name: "MEDIUM | RHEL-07-031010 | AUDIT | The rsyslog daemon must not accept log messages from other servers unless the server is being used for log aggregation."
   stat:
       path: "/etc/rsyslog.conf"
