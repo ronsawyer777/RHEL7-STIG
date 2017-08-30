@@ -1882,6 +1882,68 @@
       - patch
       - RHEL-07-041010
 
+- name: "MEDIUM | RHEL-07-010060 | PATCH | The operating system must enable a user session lock until that user re-establishes access using established identification and authentication procedures."
+  block:
+
+      # Find files with the matching option-key-value triplet
+      - ini_read:
+            section: "org/gnome/desktop/screensaver"
+            option: lock-enabled
+            path: "{{ item.path }}"
+        register: lock_enabled_files
+        with_items: "{{ rhel_07_010060_audit.files }}"
+
+      # If there are files that match, change the value
+      - ini_file:
+            path: "{{ item.ini_read.path }}"
+            section: "org/gnome/desktop/screensaver"
+            option: lock-enabled
+            value: "true"
+            create: no
+        when: item.ini_read != {}
+        with_items: "{{ lock_enabled_files.results }}"
+
+      # If there are no matching files, create 00-screensaver
+      - ini_file:
+            path: /etc/dconf/db/local.d/00-screensaver
+            section: "{{ item.section }}"
+            option: "{{ item.option }}"
+            value: "{{ item.value }}"
+            mode: 644
+            owner: root
+            group: root
+        when: rhel_07_010060_audit.files|length == 0 or lock_enabled_files.results|length == 0
+        with_items:
+            - section: "org/gnome/desktop/screensaver"
+              option: "lock-enabled"
+              value: 'true'
+            - section: "org/gnome/desktop/screensaver"
+              option: "lock-delay"
+              value: "uint32 180"
+            - section: "org/gnome/desktop/session"
+              option: "idle-delay"
+              value: "uint32 900"
+
+      # Prevent dconf from editing the values with a lock file
+      - lineinfile:
+            path: /etc/dconf/db/local.d/locks/screensaver
+            create: yes
+            line: "{{ item }}"
+            owner: root
+            group: root
+            mode: 644
+        with_items:
+            - "# Lock desktop screensaver settings"
+            - "/org/gnome/desktop/session/idle-delay"
+            - "/org/gnome/desktop/screensaver/lock-enabled"
+            - "/org/gnome/desktop/screensaver/lock-delay"
+        notify: update dconf database
+  tags:
+      - cat2
+      - medium
+      - patch
+      - RHEL-07-010060
+      - gui
 
 - name: "MEDIUM | RHEL-07-031010 | PATCH | The rsyslog daemon must not accept log messages from other servers unless the server is being used for log aggregation."
   lineinfile:

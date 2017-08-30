@@ -35,6 +35,9 @@
       name: xinetd
       state: restarted
 
+- name: update dconf database
+  command: dconf update
+
 - name: restart rsyslogd
   service:
       name: rsyslog
