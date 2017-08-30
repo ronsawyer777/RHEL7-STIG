@@ -22,12 +22,20 @@
       name: ntpd
       state: restarted
 
+# Handler changed to upstream due to known bug with auditd restarts
+# See https://bugzilla.redhat.com/show_bug.cgi?id=1026648.
 - name: restart auditd
   service:
       name: auditd
       state: restarted
+      use: upstart
       
 - name: restart xinetd
   service:
       name: xinetd
+      state: restarted
+
+- name: restart rsyslogd
+  service:
+      name: rsyslog
       state: restarted
