@@ -409,13 +409,19 @@
       - RHEL-07-020040
 
 - name: "MEDIUM | RHEL-07-020100 | PATCH | USB mass storage must be disabled."
-  command: "true"
+  lineinfile:
+      create: yes
+      regexp: '^#?install usb-storage /bin/true'
+      path: /etc/modprobe.d/nousbstorage
+      line: 'install usb-storage /bin/true'
+  when: not rhel_07_020100_audit.matched
   tags:
       - cat2
       - medium
       - patch
       - RHEL-07-020100
-
+      - usb
+         
 - name: "MEDIUM | RHEL-07-020110 | PATCH | File system automounter must be disabled unless required."
   systemd:
       name: autofs
