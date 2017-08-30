@@ -239,3 +239,17 @@
       - rsyslog
       - RHEL-07-031010
       - always
+
+- name: "MEDIUM | RHEL-07-020240 | PATCH | The operating system must define default permissions for all authenticated users in such a way that the user can only read and modify their own files."
+  stat:
+      path: "/etc/login.defs"
+  register: rhel_07_020240_audit
+  failed_when: no
+  changed_when: no
+  ignore_errors: yes
+  tags:
+      - cat2
+      - medium
+      - logindefs
+      - RHEL-07-020240
+      - always
